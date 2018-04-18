@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root to: "static#index"
+  devise_for :users
+  devise_scope :user do
+    authenticated :user do
+      root 'static#index', as: :root
+    end
+
+    unauthenticated do
+      root 'devise/sessions#new', as: :unauthenticated_root
+    end
+  end
+
   get "/index.html" => "static#index"
   get "/index2.html" => "static#index2"
   get "/index3.html" => "static#index3"
